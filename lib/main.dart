@@ -35,25 +35,30 @@ class _MyHomePageState extends State<MyHomePage> {
   String responseData = '';
 
   void _login() async {
-    FormData formData = FormData.fromMap({
-      'auth': {
-        'email': 'test@test.com',
-        'password': 'test1234',
-      }
-    });
+    try {
+      FormData formData = FormData.fromMap({
+        'auth': {
+          'email': 'test@test.com',
+          'password': 'test1234',
+        }
+      });
 
-    final response = await getDio().post(
-      "/api/v1/auth/login",
-      data: formData,
-      // {
-      //   "auth": {"email": "test@test.com", "password": "test1234"}
-      // },
-    );
-
-    print('response.data : ${response.data}');
-    setState(() {
-      responseData = response.data;
-    });
+      var response = await getDio().post(
+        "/api/v1/auth/login",
+        data: formData,
+        // {
+        //   "auth": {"email": "test@test.com", "password": "test1234"}
+        // },
+      );
+      setState(() {
+        responseData = response.data.toString();
+      });
+    } catch (e) {
+      print('에러메세지 : $e');
+      setState(() {
+        responseData = e.toString();
+      });
+    }
   }
 
   Dio getDio({
